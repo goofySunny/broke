@@ -25,6 +25,8 @@ public class FormPanel extends JPanel {
     ButtonGroup genderGroup;
     JButton okButton;
 
+    private EventObjectEmitter eventObjectEmitter;
+
     public FormPanel() {
         nameField = new JTextField();
 
@@ -61,6 +63,21 @@ public class FormPanel extends JPanel {
         CompoundBorder border = new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK), BorderFactory.createEmptyBorder(10,10,10,10));
         setBorder(border);
         setLayout(new GridBagLayout());
+
+        okButton.addActionListener(e -> {
+            String name = (String) nameField.getText();
+            String empStatus = (String) employmentStatus.getSelectedItem();
+            JRadioButton selectedGender = male.isSelected() ? male : female;
+            FormEvent eventDetails = new FormEvent(e, name, empStatus, (String) selectedGender.getText());
+            if (localCitizen.isSelected()) {
+                eventDetails.setNationalNumber((String) nationalNumber.getText());
+            } else {
+                eventDetails.setNationalNumber(null);
+            }
+            if (eventObjectEmitter != null) {
+                eventObjectEmitter.emitObject(eventDetails);
+            }
+        });
 
 
         layoutComponents();
@@ -128,6 +145,14 @@ public class FormPanel extends JPanel {
         gc.weighty = 1;
         gc.gridx = 1;
         add(okButton, gc);
+    }
+
+        public EventObjectEmitter getEventObjectEmitter() {
+        return eventObjectEmitter;
+    }
+
+    public void setEventObjectEmitter(EventObjectEmitter eventObjectEmitter) {
+        this.eventObjectEmitter = eventObjectEmitter;
     }
 
 }

@@ -17,6 +17,24 @@ public class MainFrame extends JFrame {
         textPanel.setPreferredSize(new Dimension(350, 500));
 
         formPanel = new FormPanel();
+        formPanel.setEventObjectEmitter(e -> {
+            StringBuilder text = new StringBuilder();
+            text.append("Name: ");
+            text.append(e.getName());
+            text.append("\n");
+            if (e.getNationalNumber() == null) {
+                text.append("They are not local");
+            } else {
+                text.append("National Number: ");
+                text.append(e.getNationalNumber());
+            }
+            text.append("\n");
+            text.append("They are: ");
+            text.append(e.getGender().equals("Male") ? e.getGender() : "Bitch");
+            text.append("\n");
+
+            textPanel.appendText(text.toString());
+        });
         formPanel.setPreferredSize(new Dimension(350, 500));
 
         setVisible(true);
@@ -25,8 +43,9 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MotifLookAndFeel");
-        } catch (Exception e) {   
-        }        
+        } catch (Exception e) {
+            e.printStackTrace();   
+        }
 
         add(textPanel, BorderLayout.EAST);
         add(formPanel, BorderLayout.WEST);
