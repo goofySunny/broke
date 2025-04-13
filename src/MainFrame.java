@@ -1,17 +1,26 @@
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
 
 public class MainFrame extends JFrame {
 
+
+    JMenuBar menu;
     TextPanel textPanel;
     FormPanel formPanel;
 
     public MainFrame() {
         super("By Niggas, For Niggas");
+
+        menu = new JMenuBar();
+        initMenu();
 
         textPanel = new TextPanel();
         textPanel.setPreferredSize(new Dimension(350, 500));
@@ -46,9 +55,27 @@ public class MainFrame extends JFrame {
         } catch (Exception e) {
         }
 
+
+        setJMenuBar(menu);
         add(textPanel, BorderLayout.EAST);
         add(formPanel, BorderLayout.WEST);
+    }
 
+    private void initMenu() {
+
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        JMenuItem importMenuItem = new JMenuItem("Import Data...");
+        JMenuItem exportMenuItem = new JMenuItem("Export Data...");
+        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        exitMenuItem.setMnemonic(KeyEvent.VK_X);
+
+        fileMenu.add(importMenuItem);
+        fileMenu.add(exportMenuItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitMenuItem);
+
+        menu.add(fileMenu);
     }
 
 }
