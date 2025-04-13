@@ -44,7 +44,6 @@ public class MainFrame extends JFrame {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MotifLookAndFeel");
         } catch (Exception e) {
-            e.printStackTrace();   
         }
 
         add(textPanel, BorderLayout.EAST);

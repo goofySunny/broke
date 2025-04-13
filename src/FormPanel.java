@@ -37,6 +37,7 @@ public class FormPanel extends JPanel {
 
         nationalNumber = new JTextField();
         nationalNumber.setEnabled(false);
+        nationalNumber.addKeyListener(new NumericTextFieldEnforcer());
         localCitizen = new JCheckBox();
 
         // CheckBox enables or disables the nationalNumber textField
@@ -147,7 +148,7 @@ public class FormPanel extends JPanel {
         add(okButton, gc);
     }
 
-        public EventObjectEmitter getEventObjectEmitter() {
+    public EventObjectEmitter getEventObjectEmitter() {
         return eventObjectEmitter;
     }
 
