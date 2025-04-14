@@ -1,16 +1,23 @@
+package ir.najaftech;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 
 public class MainFrame extends JFrame {
-
 
     JMenuBar menu;
     TextPanel textPanel;
@@ -18,6 +25,12 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         super("By Niggas, For Niggas");
+
+        // try {
+        //     UIManager.setLookAndFeel(new FlatDarculaLaf());
+        // } catch(Exception e) {
+        //     System.out.println("Failed to initialize Flat");
+        // }
 
         menu = new JMenuBar();
         initMenu();
@@ -50,11 +63,6 @@ public class MainFrame extends JFrame {
         setSize(700, 500);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MotifLookAndFeel");
-        } catch (Exception e) {
-        }
-
 
         setJMenuBar(menu);
         add(textPanel, BorderLayout.EAST);
@@ -75,7 +83,32 @@ public class MainFrame extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
 
+        JMenu windowMenu = new JMenu("Window");
+        JCheckBoxMenuItem flatLafCheckbox = new JCheckBoxMenuItem("Light Theme");
+        flatLafCheckbox.addActionListener(e -> {
+            if (flatLafCheckbox.isSelected()) {
+                FlatLightLaf.setup();
+                try {
+                    UIManager.setLookAndFeel(new FlatLightLaf());
+                    SwingUtilities.updateComponentTreeUI(this);
+                } catch (Exception e1) {
+                    System.out.println("Failed");
+                }
+            } else {
+                FlatDarculaLaf.setup();
+                try {
+                    UIManager.setLookAndFeel(new FlatDarculaLaf());
+                    SwingUtilities.updateComponentTreeUI(this);
+                } catch (Exception e2) {
+                    System.out.println("Failed");
+                }
+            }
+        });
+        windowMenu.add(flatLafCheckbox);
+
+
         menu.add(fileMenu);
+        menu.add(windowMenu);
     }
 
 }
