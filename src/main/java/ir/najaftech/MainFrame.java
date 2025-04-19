@@ -2,6 +2,7 @@ package ir.najaftech;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -9,11 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 
@@ -25,12 +27,6 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         super("By Niggas, For Niggas");
-
-        // try {
-        //     UIManager.setLookAndFeel(new FlatDarculaLaf());
-        // } catch(Exception e) {
-        //     System.out.println("Failed to initialize Flat");
-        // }
 
         menu = new JMenuBar();
         initMenu();
@@ -76,7 +72,14 @@ public class MainFrame extends JFrame {
         JMenuItem importMenuItem = new JMenuItem("Import Data...");
         JMenuItem exportMenuItem = new JMenuItem("Export Data...");
         JMenuItem exitMenuItem = new JMenuItem("Exit");
-        exitMenuItem.setMnemonic(KeyEvent.VK_X);
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+
+        exitMenuItem.addActionListener(e -> {
+            int exit = JOptionPane.showConfirmDialog(MainFrame.this, "Quit application?",  "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
+            if (exit == JOptionPane.OK_OPTION) {
+                System.exit(0);
+            }
+        });
 
         fileMenu.add(importMenuItem);
         fileMenu.add(exportMenuItem);
