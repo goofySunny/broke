@@ -35,7 +35,8 @@ public class MainFrame extends JFrame {
         initMenu();
 
         fileChooser = new JFileChooser();
-
+        fileChooser.addChoosableFileFilter(new FileChooserFilter());
+        
         textPanel = new TextPanel();
         textPanel.setPreferredSize(new Dimension(350, 500));
 
