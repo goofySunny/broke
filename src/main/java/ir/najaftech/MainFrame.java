@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,11 +26,15 @@ public class MainFrame extends JFrame {
     TextPanel textPanel;
     FormPanel formPanel;
 
+    private JFileChooser fileChooser;
+
     public MainFrame() {
         super("By Niggas, For Niggas");
 
         menu = new JMenuBar();
         initMenu();
+
+        fileChooser = new JFileChooser();
 
         textPanel = new TextPanel();
         textPanel.setPreferredSize(new Dimension(350, 500));
@@ -70,7 +75,13 @@ public class MainFrame extends JFrame {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         JMenuItem importMenuItem = new JMenuItem("Import Data...");
+        importMenuItem.addActionListener(e -> {
+            fileChooser.showOpenDialog(MainFrame.this);
+        });
         JMenuItem exportMenuItem = new JMenuItem("Export Data...");
+        exportMenuItem.addActionListener(e -> {
+            fileChooser.showSaveDialog(MainFrame.this);
+        });
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 
