@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
             }
             text.append("\n");
             text.append("They are: ");
-            text.append(e.getGender().equals("Male") ? e.getGender() : "Bitch");
+            text.append(e.getGender());
             text.append("\n");
 
             textPanel.appendText(text.toString());

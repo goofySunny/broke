@@ -93,7 +93,8 @@ public class FormPanel extends JPanel {
         gc.weighty = 0.01;
 
         // First row
-        add(new JLabel("Name"), gc);
+        gc.anchor = GridBagConstraints.BASELINE_LEADING;
+        add(new JLabel("Name: "), gc);
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.gridx = 1;
         add(nameField, gc);
@@ -103,7 +104,7 @@ public class FormPanel extends JPanel {
         gc.gridy++;
         // Label
         gc.gridx = 0;
-        add(new JLabel("Employment Status"), gc);
+        add(new JLabel("Employment Status: "), gc);
         // Control
         gc.gridx = 1;
         add(employmentStatus, gc);
@@ -112,7 +113,7 @@ public class FormPanel extends JPanel {
         gc.gridy++;
         // Label
         gc.gridx = 0;
-        add(new JLabel("Are you a local?"), gc);
+        add(new JLabel("Are you a local? "), gc);
         // Control
         gc.gridx = 1;
         add(localCitizen, gc);
