@@ -1,4 +1,4 @@
-package ir.najaftech;
+package ir.najaftech.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

@@ -1,4 +1,4 @@
-package ir.najaftech;
+package ir.najaftech.gui;
 
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
