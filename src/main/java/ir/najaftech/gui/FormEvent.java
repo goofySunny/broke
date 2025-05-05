@@ -2,15 +2,18 @@ package ir.najaftech.gui;
 
 import java.util.EventObject;
 
+import ir.najaftech.model.EmploymentStatus;
+import ir.najaftech.model.Gender;
+
 
 public class FormEvent extends EventObject {
 
     private String name;
-    private String employmentStatus;
-    private String gender;
+    private EmploymentStatus employmentStatus;
+    private Gender gender;
     private String nationalNumber;
 
-    public FormEvent(Object source, String name, String employmentStatus, String gender) {
+    public FormEvent(Object source, String name, EmploymentStatus employmentStatus, Gender gender) {
         super(source);
         this.name = name;
         this.employmentStatus = employmentStatus;
@@ -25,19 +28,19 @@ public class FormEvent extends EventObject {
         this.name = name;
     }
 
-    public String getEmploymentStatus() {
+    public EmploymentStatus getEmploymentStatus() {
         return employmentStatus;
     }
 
-    public void setEmploymentStatus(String employmentStatus) {
+    public void setEmploymentStatus(EmploymentStatus employmentStatus) {
         this.employmentStatus = employmentStatus;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

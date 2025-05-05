@@ -9,21 +9,21 @@ public class Person {
     private boolean local;
     private String nationalnumber;
 
-    public Person(long id, String name, EmploymentStatus employmentStatus, Gender gender, boolean local,
+    public Person(long id, String name, EmploymentStatus employmentStatus, Gender gender,
             String nationalnumber) {
         this.id = id;
         this.name = name;
         this.employmentStatus = employmentStatus;
+        this.local = nationalnumber.isEmpty() || nationalnumber.isBlank() ? true : false;
         this.gender = gender;
-        this.local = local;
         this.nationalnumber = nationalnumber;
     }
 
-    public Person(String name, EmploymentStatus employmentStatus, Gender gender, boolean local, String nationalnumber) {
+    public Person(String name, EmploymentStatus employmentStatus, Gender gender, String nationalnumber) {
         this.name = name;
         this.employmentStatus = employmentStatus;
         this.gender = gender;
-        this.local = local;
+        this.local = nationalnumber.isEmpty() || nationalnumber.isBlank() ? true : false;
         this.nationalnumber = nationalnumber;
     }
     
@@ -76,6 +76,13 @@ public class Person {
 
     public void setNationalnumber(String nationalnumber) {
         this.nationalnumber = nationalnumber;
+    }
+
+    @Override
+    public String toString() {
+        // return "Person [name=" + name + ", employmentStatus=" + employmentStatus + ", gender=" + gender + ", local="
+        //         + local + ", nationalnumber=" + nationalnumber + "]";
+        return "Name: " + name + ", Employment Status: " + employmentStatus + ", Gender: " + gender.toString().toLowerCase() + ", National Number: " + (local ? "Not Local" : nationalnumber);
     }
 
 }

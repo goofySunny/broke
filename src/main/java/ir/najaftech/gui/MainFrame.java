@@ -19,6 +19,8 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import ir.najaftech.model.Person;
+
 
 public class MainFrame extends JFrame {
 
@@ -42,22 +44,9 @@ public class MainFrame extends JFrame {
 
         formPanel = new FormPanel();
         formPanel.setEventObjectEmitter(e -> {
-            StringBuilder text = new StringBuilder();
-            text.append("Name: ");
-            text.append(e.getName());
-            text.append("\n");
-            if (e.getNationalNumber() == null) {
-                text.append("They are not local");
-            } else {
-                text.append("National Number: ");
-                text.append(e.getNationalNumber());
-            }
-            text.append("\n");
-            text.append("They are: ");
-            text.append(e.getGender());
-            text.append("\n");
-
-            textPanel.appendText(text.toString());
+        
+            textPanel.appendPerson(new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber()));
+            System.out.println("Text Panel Method Called");
         });
         formPanel.setPreferredSize(new Dimension(350, 500));
 
@@ -67,7 +56,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
-        add(textPanel, BorderLayout.EAST);
+        add(textPanel, BorderLayout.CENTER);
         add(formPanel, BorderLayout.WEST);
     }
 
