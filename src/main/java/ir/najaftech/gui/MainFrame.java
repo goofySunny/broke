@@ -19,14 +19,9 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import ir.najaftech.model.Person;
-
-
 public class MainFrame extends JFrame {
 
     JMenuBar menu;
-    TextPanel textPanel;
-    FormPanel formPanel;
 
     private JFileChooser fileChooser;
 
@@ -36,28 +31,12 @@ public class MainFrame extends JFrame {
         menu = new JMenuBar();
         initMenu();
 
-        fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new FileChooserFilter());
-        
-        textPanel = new TextPanel();
-        textPanel.setPreferredSize(new Dimension(350, 500));
-
-        formPanel = new FormPanel();
-        formPanel.setEventObjectEmitter(e -> {
-        
-            textPanel.appendPerson(new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber()));
-            System.out.println("Text Panel Method Called");
-        });
-        formPanel.setPreferredSize(new Dimension(350, 500));
-
         setVisible(true);
         setSize(700, 500);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
-        add(textPanel, BorderLayout.CENTER);
-        add(formPanel, BorderLayout.WEST);
     }
 
     private void initMenu() {
