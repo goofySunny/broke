@@ -24,16 +24,23 @@ public class MainFrame extends JFrame {
     JMenuBar menu;
 
     private JFileChooser fileChooser;
+    private ExpenseAdditionForm expenseForm;
+    private GraphPanel graphPanel;
 
     public MainFrame() {
         super("By Niggas, For Niggas");
 
+        graphPanel = new GraphPanel();
+        expenseForm = new ExpenseAdditionForm();
         menu = new JMenuBar();
         initMenu();
 
         setVisible(true);
         setSize(700, 500);
         setLayout(new BorderLayout());
+
+        add(expenseForm, BorderLayout.WEST);
+        add(graphPanel, BorderLayout.EAST);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
@@ -55,7 +62,8 @@ public class MainFrame extends JFrame {
         exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 
         exitMenuItem.addActionListener(e -> {
-            int exit = JOptionPane.showConfirmDialog(MainFrame.this, "Quit application?",  "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
+            int exit = JOptionPane.showConfirmDialog(MainFrame.this, "Quit application?", "Confirm Exit",
+                    JOptionPane.OK_CANCEL_OPTION);
             if (exit == JOptionPane.OK_OPTION) {
                 System.exit(0);
             }
@@ -88,7 +96,6 @@ public class MainFrame extends JFrame {
             }
         });
         windowMenu.add(flatLafCheckbox);
-
 
         menu.add(fileMenu);
         menu.add(windowMenu);
