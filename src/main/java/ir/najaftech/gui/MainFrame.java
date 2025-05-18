@@ -1,9 +1,9 @@
 package ir.najaftech.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import ir.najaftech.model.Expense;
 
 public class MainFrame extends JFrame {
 
@@ -30,8 +31,12 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("By Niggas, For Niggas");
 
-        graphPanel = new GraphPanel();
+        graphPanel = new GraphPanel(new ArrayList<Expense>());
         expenseForm = new ExpenseAdditionForm();
+        expenseForm.setFormObjectEmitter((e, expense) -> {
+            System.out.println("We in Main frame");
+            graphPanel.addExpense(expense);
+        });
         menu = new JMenuBar();
         initMenu();
 
