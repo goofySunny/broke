@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ExpenseAdditionForm extends JPanel {
 
-//    Memebers
+//    Members
     JTextField expenseAmount;
     JTextField expenseDescription;
     JComboBox<ExpenseCategory> expenseCategory;
