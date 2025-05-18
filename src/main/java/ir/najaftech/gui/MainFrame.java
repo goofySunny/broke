@@ -34,7 +34,6 @@ public class MainFrame extends JFrame {
         graphPanel = new GraphPanel(new ArrayList<Expense>());
         expenseForm = new ExpenseAdditionForm();
         expenseForm.setFormObjectEmitter((e, expense) -> {
-            System.out.println("We in Main frame");
             graphPanel.addExpense(expense);
         });
         menu = new JMenuBar();
