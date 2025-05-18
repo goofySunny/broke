@@ -55,4 +55,13 @@ public class Expense {
     public void setCategory(ExpenseCategory category) {
         this.category = category;
     }
+
+
+    @Override
+    public String toString() {
+        return "amount=" + amount +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", customCategory='" + customCategory + '\'';
+    }
 }
