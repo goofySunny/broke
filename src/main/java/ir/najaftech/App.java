@@ -2,8 +2,6 @@ package ir.najaftech;
 
 
 import java.awt.EventQueue;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -21,14 +19,5 @@ public class App {
             new MainFrame();
         });
 
-        String url = "jdbc:sqlite:data.db";
-        Connection connection;
-        try {
-        connection = DriverManager.getConnection(url);
-
-        connection.close();
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
     }
 }
