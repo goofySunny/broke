@@ -1,14 +1,15 @@
-package ir.najaftech.gui;
+package ir.najaftech;
 
 
 import java.awt.EventQueue;
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+
+import ir.najaftech.gui.MainFrame;
+
 
 
 public class App {
@@ -39,6 +40,8 @@ public class App {
         //     System.out.println(result.getInt("id"));
         //     System.out.println(result.getString("full_name"));
         // }
+
+        connection.close();
         } catch (Exception e) {
             // TODO: handle exception
         }
