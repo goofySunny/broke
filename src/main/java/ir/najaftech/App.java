@@ -25,21 +25,6 @@ public class App {
         Connection connection;
         try {
         connection = DriverManager.getConnection(url);
-        
-        // String sql = "CREATE TABLE IF NOT EXISTS person(id BIGINT PRIMARY KEY, full_name VARCHAR(255))";
-        // Statement statement = connection.createStatement();
-        // statement.executeUpdate(sql);
-        // System.out.println("Table Created");
-        // sql = "INSERT INTO person VALUES(1, 'Ali Najafian')";
-        // statement.executeUpdate(sql);
-        // sql = "INSERT INTO person VALUES(2, 'Mahsas Mirzaei')";
-        // statement.executeUpdate(sql);
-        // System.out.println("Two Rows added to database");
-        // ResultSet result = statement.executeQuery("SELECT * FROM person");
-        // while (result.next()) {
-        //     System.out.println(result.getInt("id"));
-        //     System.out.println(result.getString("full_name"));
-        // }
 
         connection.close();
         } catch (Exception e) {
