@@ -82,7 +82,7 @@ public class Person {
     public String toString() {
         // return "Person [name=" + name + ", employmentStatus=" + employmentStatus + ", gender=" + gender + ", local="
         //         + local + ", nationalnumber=" + nationalnumber + "]";
-        return "Name: " + name + ", Employment Status: " + employmentStatus + ", Gender: " + gender.toString().toLowerCase() + ", National Number: " + (local ? "Not Local" : nationalnumber);
+        return "Name: " + name + ", Employment Status: " + employmentStatus + ", Gender: " + gender.toString() + ", National Number: " + (local ? "Not Local" : nationalnumber);
     }
 
 }
