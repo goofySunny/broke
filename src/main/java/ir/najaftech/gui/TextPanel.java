@@ -2,46 +2,63 @@ package ir.najaftech.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-import ir.najaftech.model.EmploymentStatus;
-import ir.najaftech.model.Gender;
 import ir.najaftech.model.Person;
+import ir.najaftech.services.DataReadingService;
+import ir.najaftech.services.DataReadingServiceImpl;
 
 public class TextPanel extends JPanel {
 
+    DataReadingService dataReadingService;
+
     JTextArea textArea;
-    JList listEmployees;
-    ArrayList<Person> people;
-    DefaultListModel model;
+    Object[][] data = {{"Name", "Employment", "Gender", "local"}};
+
+    JTable table;
     
-    public TextPanel() {
-        people = new ArrayList<>();
-        people.add(new Person(1, "Ali", EmploymentStatus.EMPLOYED, Gender.MALE, "0150082533"));
-        model = new DefaultListModel<>();
-        for(Person p : people) {
-            model.addElement(p);
+    public TextPanel() throws Exception {
+        dataReadingService = new DataReadingServiceImpl();
+        List<Person> people = initializeTableData();
+
+        for (Person p : people) {
+            data = addEntry(data, p);
         }
-        listEmployees = new JList(model);
+
+        String[] columns = {"Name", "Employment", "Gender", "local"};
+        table = new JTable(data, columns);
+
         setLayout(new BorderLayout());
         setVisible(true);
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         setPreferredSize(new Dimension(1000,1000));
-        add(listEmployees, BorderLayout.CENTER);
+        add(table, BorderLayout.CENTER);
     }
 
     public void appendPerson(Person p) {
-        this.people.add(p);
-        this.model.addElement(p);
-        for (Person m : people) {
-            System.out.println(m);
-        }
-        repaint();
     }
+
+    private List<Person> initializeTableData() throws Exception {
+        return dataReadingService.getAllPeople();
+    }
+
+    private Object[][] addEntry(Object[][] originalArray, Person newEntry) {
+
+        Object[][] newArray = Arrays.copyOf(originalArray, originalArray.length + 1);
+
+
+        Object[] newRow = Arrays.copyOf(newArray[0], newArray[0].length);
+        newArray[newArray.length-1] = newRow;
+
+        newRow[0] = newEntry.getGender();
+        newRow[1] = newEntry.getEmploymentStatus();
+        newRow[2] = newEntry.getName();
+        newRow[3] = newEntry.isLocal();
+
+        return newArray;
+    }
+
 }

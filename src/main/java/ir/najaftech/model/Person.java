@@ -14,7 +14,7 @@ public class Person {
         this.id = id;
         this.name = name;
         this.employmentStatus = employmentStatus;
-        this.local = nationalnumber.isEmpty() || nationalnumber.isBlank() ? true : false;
+        this.local = nationalnumber == null;
         this.gender = gender;
         this.nationalnumber = nationalnumber;
     }
@@ -23,7 +23,7 @@ public class Person {
         this.name = name;
         this.employmentStatus = employmentStatus;
         this.gender = gender;
-        this.local = nationalnumber.isEmpty() || nationalnumber.isBlank() ? true : false;
+        this.local = nationalnumber == null;
         this.nationalnumber = nationalnumber;
     }
     

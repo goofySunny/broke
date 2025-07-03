@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 
     private JFileChooser fileChooser;
 
-    public MainFrame() {
+    public MainFrame() throws Exception {
         super("By Niggas, For Niggas");
 
         menu = new JMenuBar();
