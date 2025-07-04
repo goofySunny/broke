@@ -18,7 +18,7 @@ public class TextPanel extends JPanel {
     JTextArea textArea;
     Object[][] data = {{"Name", "Employment", "Gender", "local"}};
 
-    JTable table;
+    CustomJTable table;
     
     public TextPanel() throws Exception {
         dataReadingService = new DataReadingServiceImpl();
@@ -29,8 +29,7 @@ public class TextPanel extends JPanel {
         }
 
         String[] columns = {"Name", "Employment", "Gender", "local"};
-        table = new JTable(data, columns);
-
+        table = new CustomJTable(data, columns);
         setLayout(new BorderLayout());
         setVisible(true);
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
