@@ -52,9 +52,9 @@ public class TextPanel extends JPanel {
         Object[] newRow = Arrays.copyOf(newArray[0], newArray[0].length);
         newArray[newArray.length-1] = newRow;
 
-        newRow[0] = newEntry.getGender();
+        newRow[0] = newEntry.getName();
         newRow[1] = newEntry.getEmploymentStatus();
-        newRow[2] = newEntry.getName();
+        newRow[2] = newEntry.getGender();
         newRow[3] = newEntry.isLocal();
 
         return newArray;
