@@ -30,6 +30,9 @@ public class TextPanel extends JPanel {
 
         String[] columns = {"Name", "Employment", "Gender", "local"};
         table = new CustomJTable(data, columns);
+        table.setShowGrid(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
         setLayout(new BorderLayout());
         setVisible(true);
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
