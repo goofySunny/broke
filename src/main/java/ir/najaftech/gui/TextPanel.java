@@ -14,21 +14,16 @@ import ir.najaftech.services.DataReadingServiceImpl;
 public class TextPanel extends JPanel {
 
     DataReadingService dataReadingService;
+    Object[][] initialData = {{"Name", "Employment", "Gender", "local"}};
 
     JTextArea textArea;
-    Object[][] data = {{"Name", "Employment", "Gender", "local"}};
+    Object[][] data = initialData;
+    String[] columns = {"Name", "Employment", "Gender", "local"};
 
     CustomJTable table;
     
     public TextPanel() throws Exception {
-        dataReadingService = new DataReadingServiceImpl();
-        List<Person> people = initializeTableData();
-
-        for (Person p : people) {
-            data = addEntry(data, p);
-        }
-
-        String[] columns = {"Name", "Employment", "Gender", "local"};
+        requestData();
         table = new CustomJTable(data, columns);
         table.setShowGrid(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -40,11 +35,20 @@ public class TextPanel extends JPanel {
         add(table, BorderLayout.CENTER);
     }
 
-    public void appendPerson(Person p) {
+
+    private void requestData() throws Exception {
+        dataReadingService = new DataReadingServiceImpl();
+        List<Person> people = dataReadingService.getAllPeople();
+
+        for (Person p : people) {
+            data = addEntry(data, p);
+        }
     }
 
-    private List<Person> initializeTableData() throws Exception {
-        return dataReadingService.getAllPeople();
+    public void refreshData() throws Exception {
+        data = initialData;
+        requestData();
+//        TODO : actual refreshing business
     }
 
     private Object[][] addEntry(Object[][] originalArray, Person newEntry) {

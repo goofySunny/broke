@@ -20,9 +20,13 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import ir.najaftech.model.Person;
+import ir.najaftech.services.DataWritingService;
+import ir.najaftech.services.DataWritingServiceImpl;
 
 
 public class MainFrame extends JFrame {
+
+    private DataWritingService dataWritingService;
 
     JMenuBar menu;
     TextPanel textPanel;
@@ -32,6 +36,8 @@ public class MainFrame extends JFrame {
 
     public MainFrame() throws Exception {
         super("By Niggas, For Niggas");
+        dataWritingService = new DataWritingServiceImpl();
+
 
         menu = new JMenuBar();
         initMenu();
@@ -44,9 +50,9 @@ public class MainFrame extends JFrame {
 
         formPanel = new FormPanel();
         formPanel.setEventObjectEmitter(e -> {
-        
-            textPanel.appendPerson(new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber()));
-            System.out.println("Text Panel Method Called");
+        Person p = new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber());
+        dataWritingService.writePerson(p);
+        textPanel.refreshData();
         });
         formPanel.setPreferredSize(new Dimension(350, 500));
 

@@ -3,6 +3,7 @@ package ir.najaftech.gui;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -92,7 +93,11 @@ public class FormPanel extends JPanel {
                 eventDetails.setNationalNumber(null);
             }
             if (eventObjectEmitter != null) {
-                eventObjectEmitter.emitObject(eventDetails);
+                try {
+                    eventObjectEmitter.emitObject(eventDetails);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
