@@ -39,6 +39,7 @@ public class TextPanel extends JPanel {
     }
 
 
+//    Internal Util
     private void requestData() throws Exception {
         dataReadingService = new DataReadingServiceImpl();
         List<Person> people = dataReadingService.getAllPeople();
@@ -46,16 +47,6 @@ public class TextPanel extends JPanel {
         for (Person p : people) {
             data = addEntry(data, p);
         }
-    }
-
-    public void refreshData() throws Exception {
-        this.removeAll();
-        data = null;
-        requestData();
-        table = new CustomJTable(data, columns);
-        this.repaint();
-        this.add(new JScrollPane(table), BorderLayout.CENTER);
-        this.revalidate();
     }
 
     private Object[][] addEntry(Object[][] originalArray, Person newEntry) {
@@ -80,6 +71,17 @@ public class TextPanel extends JPanel {
         newRow[3] = newEntry.isLocal() ? "YES" : "NO";
 
         return newArray;
+    }
+
+//    Public Method to call when data is changed
+    public void refreshData() throws Exception {
+        this.removeAll();
+        data = null;
+        requestData();
+        table = new CustomJTable(data, columns);
+        this.repaint();
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.revalidate();
     }
 
 }
