@@ -50,9 +50,12 @@ public class MainFrame extends JFrame {
 
         formPanel = new FormPanel();
         formPanel.setEventObjectEmitter(e -> {
-        Person p = new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber());
-        dataWritingService.writePerson(p);
-        textPanel.refreshData();
+            if (e.getNationalNumber() == null) {
+                e.setNationalNumber("");
+            }
+            Person p = new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber());
+            dataWritingService.writePerson(p);
+            textPanel.refreshData();
         });
         formPanel.setPreferredSize(new Dimension(350, 500));
 

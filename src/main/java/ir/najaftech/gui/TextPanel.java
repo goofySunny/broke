@@ -14,16 +14,18 @@ import ir.najaftech.services.DataReadingServiceImpl;
 public class TextPanel extends JPanel {
 
     DataReadingService dataReadingService;
-    Object[][] initialData;
 
-    JTextArea textArea;
-    Object[][] data = initialData;
+    Object[][] data;
     String[] columns = {"Name", "Employment", "Gender", "local"};
 
     CustomJTable table;
     
     public TextPanel() throws Exception {
         requestData();
+
+        if (data == null) {
+            data = new Object[][]{{"Example", "???", "???", "???"}};
+        }
 
         table = new CustomJTable(data, columns);
         table.setShowGrid(true);
@@ -48,7 +50,7 @@ public class TextPanel extends JPanel {
 
     public void refreshData() throws Exception {
         this.removeAll();
-        data = initialData;
+        data = null;
         requestData();
         table = new CustomJTable(data, columns);
         this.repaint();
