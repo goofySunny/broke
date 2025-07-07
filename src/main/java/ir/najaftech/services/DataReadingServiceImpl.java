@@ -1,15 +1,13 @@
 package ir.najaftech.services;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.najaftech.model.EmploymentStatus;
 import ir.najaftech.model.Gender;
 import ir.najaftech.model.Person;
+import org.sqlite.SQLiteException;
 
 
 public class DataReadingServiceImpl implements DataReadingService {
@@ -21,7 +19,7 @@ public class DataReadingServiceImpl implements DataReadingService {
 	@Override
 	public List<Person> getAllPeople() throws Exception {
     
-		List<Person> people = new ArrayList<Person>();
+		List<Person> people = new ArrayList<>();
 		
 
         try {
@@ -30,8 +28,14 @@ public class DataReadingServiceImpl implements DataReadingService {
         Statement statement = connection.createStatement();
         
         String prepare = "SELECT * FROM person";
-        ResultSet res = statement.executeQuery(prepare);
-        while(res.next()) {
+            ResultSet res;
+            try {
+                res = statement.executeQuery(prepare);
+            } catch (SQLiteException e) {
+				createTable();
+				res= statement.executeQuery(prepare);
+            }
+            while(res.next()) {
         	
         	EmploymentStatus empStatus = null;
         	Gender gen = null;
@@ -41,7 +45,7 @@ public class DataReadingServiceImpl implements DataReadingService {
         		if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
         			empStatus = emp;
         			break;
-        		}    		
+        		}
         	}
         	
 //        	Find Correct Enum        	
@@ -64,7 +68,6 @@ public class DataReadingServiceImpl implements DataReadingService {
         connection.close();
         } catch (Exception e) {
         	e.printStackTrace();
-            throw new Exception("Failed to Contact to database please try again");
         }
         
         return people;
@@ -122,6 +125,16 @@ public class DataReadingServiceImpl implements DataReadingService {
 		}
 		
 		return person;
+	}
+
+//	Table Initialization
+	private void createTable() throws SQLException {
+		Connection connection = DriverManager.getConnection(url);
+		Statement stmt = connection.createStatement();
+		stmt.executeUpdate("CREATE TABLE person(id INTEGER PRIMARY KEY UNIQUE, name VARCHAR(255) NOT NULL, employment_status VARCHAR(255) NOT NULL, gender VARCHAR(7) NOT NULL," +
+				"local BOOLEAN NOT NULL, national_number VARCHAR(255))");
+		stmt.close();
+		connection.close();
 	}
 	
 //	TODO : extract the repetetive code into a method
