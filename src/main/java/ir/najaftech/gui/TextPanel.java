@@ -14,7 +14,7 @@ import ir.najaftech.services.DataReadingServiceImpl;
 public class TextPanel extends JPanel {
 
     DataReadingService dataReadingService;
-    Object[][] initialData = {{"Name", "Employment", "Gender", "local"}};
+    Object[][] initialData;
 
     JTextArea textArea;
     Object[][] data = initialData;
@@ -24,6 +24,7 @@ public class TextPanel extends JPanel {
     
     public TextPanel() throws Exception {
         requestData();
+
         table = new CustomJTable(data, columns);
         table.setShowGrid(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -32,7 +33,7 @@ public class TextPanel extends JPanel {
         setVisible(true);
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         setPreferredSize(new Dimension(1000,1000));
-        add(table, BorderLayout.CENTER);
+        add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
 
@@ -46,23 +47,35 @@ public class TextPanel extends JPanel {
     }
 
     public void refreshData() throws Exception {
+        this.removeAll();
         data = initialData;
         requestData();
-//        TODO : actual refreshing business
+        table = new CustomJTable(data, columns);
+        this.repaint();
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.revalidate();
     }
 
     private Object[][] addEntry(Object[][] originalArray, Person newEntry) {
 
+        if (originalArray == null) {
+            return new Object[][]{{
+                newEntry.getName(),
+                newEntry.getEmploymentStatus().toString(),
+                newEntry.getGender().toString(),
+                newEntry.isLocal() ? "YES" : "NO"
+            }};
+        }
         Object[][] newArray = Arrays.copyOf(originalArray, originalArray.length + 1);
 
 
-        Object[] newRow = Arrays.copyOf(newArray[0], newArray[0].length);
+        Object[] newRow = Arrays.copyOf(columns, columns.length);
         newArray[newArray.length-1] = newRow;
 
         newRow[0] = newEntry.getName();
-        newRow[1] = newEntry.getEmploymentStatus();
-        newRow[2] = newEntry.getGender();
-        newRow[3] = newEntry.isLocal();
+        newRow[1] = newEntry.getEmploymentStatus().toString();
+        newRow[2] = newEntry.getGender().toString();
+        newRow[3] = newEntry.isLocal() ? "YES" : "NO";
 
         return newArray;
     }
