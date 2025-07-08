@@ -22,53 +22,49 @@ public class DataReadingServiceImpl implements DataReadingService {
 		List<Person> people = new ArrayList<>();
 		
 
-        try {
         connection = DriverManager.getConnection(url);
         
         Statement statement = connection.createStatement();
         
         String prepare = "SELECT * FROM person";
-            ResultSet res;
-            try {
-                res = statement.executeQuery(prepare);
-            } catch (SQLiteException e) {
-				createTable();
-				res= statement.executeQuery(prepare);
-            }
-            while(res.next()) {
+		ResultSet res;
+		try {
+			res = statement.executeQuery(prepare);
+		} catch (SQLiteException e) {
+			createTable();
+			res= statement.executeQuery(prepare);
+		}
+		while(res.next()) {
         	
-        	EmploymentStatus empStatus = null;
-        	Gender gen = null;
-        	
+		EmploymentStatus empStatus = null;
+		Gender gen = null;
+
 //        	Find Correct Enum
-        	for (EmploymentStatus emp : EmploymentStatus.values()) {
-        		if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
-        			empStatus = emp;
-        			break;
-        		}
-        	}
-        	
+		for (EmploymentStatus emp : EmploymentStatus.values()) {
+			if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
+				empStatus = emp;
+				break;
+			}
+		}
+
 //        	Find Correct Enum        	
-        	for (Gender sex : Gender.values()) {
-        		if (res.getString("gender").equalsIgnoreCase(sex.toString())) {
-        			gen = sex;
-        			break;
-        		}
-        	}
-        	
-        	String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
-        	
-        	Person person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
-        	
-        	people.add(person);
-        	
-        }
+		for (Gender sex : Gender.values()) {
+			if (res.getString("gender").equalsIgnoreCase(sex.toString())) {
+				gen = sex;
+				break;
+			}
+		}
+
+		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
+
+		Person person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
+
+		people.add(person);
+
+	}
         
         statement.close();
         connection.close();
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
         
         return people;
 	}
@@ -78,52 +74,47 @@ public class DataReadingServiceImpl implements DataReadingService {
 	public Person getPersonById(long id) throws Exception {
 		
 		Person person;
-		
-		try {
-			connection = DriverManager.getConnection(url);
-			Statement statement = connection.createStatement();
-			String prepare = "SELECT * FROM person WHERE id = " + id;
-			
-			ResultSet res = statement.executeQuery(prepare); 
-			res.next();
 
-			String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
-			EmploymentStatus empStatus = null;
-			Gender gen = null;
-			
+		connection = DriverManager.getConnection(url);
+		Statement statement = connection.createStatement();
+		String prepare = "SELECT * FROM person WHERE id = " + id;
+
+		ResultSet res = statement.executeQuery(prepare);
+		res.next();
+
+		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
+		EmploymentStatus empStatus = null;
+		Gender gen = null;
+
 //        	Find Correct Enum
-        	for (EmploymentStatus emp : EmploymentStatus.values()) {
-        		if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
-        			empStatus = emp;
-        			break;
-        		}    		
-        	}
-        	
-//        	Find Correct Enum        	
-        	for (Gender sex : Gender.values()) {
-        		if (res.getString("gender").equalsIgnoreCase(sex.toString())) {
-        			gen = sex;
-        			break;
-        		}
-        	}
-			
-			res.getLong("id");
-			res.getString("name");
-			
-			person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
-			
-//			If there is more rows returned throw Exception
-			if (res.next()) {
-				throw new Exception();
+		for (EmploymentStatus emp : EmploymentStatus.values()) {
+			if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
+				empStatus = emp;
+				break;
 			}
-			
-			statement.close();
-			connection.close();
-		} catch(Exception ex) {
-			ex.printStackTrace();
-            throw new Exception(ex.getMessage());
 		}
-		
+
+//        	Find Correct Enum        	
+		for (Gender sex : Gender.values()) {
+			if (res.getString("gender").equalsIgnoreCase(sex.toString())) {
+				gen = sex;
+				break;
+			}
+		}
+
+		res.getLong("id");
+		res.getString("name");
+
+		person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
+
+//			If there is more rows returned throw Exception
+		if (res.next()) {
+				throw new Exception();
+		}
+
+		statement.close();
+		connection.close();
+
 		return person;
 	}
 
