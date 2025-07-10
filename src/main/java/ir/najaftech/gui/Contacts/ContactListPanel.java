@@ -1,7 +1,6 @@
 package ir.najaftech.gui.Contacts;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,11 +32,46 @@ public class ContactListPanel extends JPanel {
         table.setShowGrid(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout());
         setVisible(true);
-        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         setPreferredSize(new Dimension(1000,1000));
-        add(new JScrollPane(table), BorderLayout.CENTER);
+
+        layoutComponents();
+    }
+
+    private void layoutComponents() {
+        GridBagConstraints gc = new GridBagConstraints();
+
+//        First Row (Table)
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.weightx = 3;
+        gc.weighty = 3;
+        gc.gridwidth = 2;
+        gc.fill = GridBagConstraints.BOTH;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        add(new JScrollPane(table), gc);
+
+//        Next Row
+        gc.gridwidth = 1;
+        gc.weightx = 1;
+        gc.fill = GridBagConstraints.VERTICAL;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.gridx = 0;
+        gc.gridy = 1;
+        gc.weighty = 0.01;
+
+        add(new JButton("Edit"), gc);
+
+        //        Next Row
+        gc.fill = GridBagConstraints.VERTICAL;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weighty = 0.01;
+
+        add(new JButton("Delete"), gc);
     }
 
 
