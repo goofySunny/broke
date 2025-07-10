@@ -7,9 +7,6 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import ir.najaftech.gui.MainFrame;
-import ir.najaftech.services.DataReadingService;
-import ir.najaftech.services.DataReadingServiceImpl;
-
 
 
 public class App {

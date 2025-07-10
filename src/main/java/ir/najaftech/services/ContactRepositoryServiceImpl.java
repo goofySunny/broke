@@ -10,7 +10,7 @@ import ir.najaftech.model.Person;
 import org.sqlite.SQLiteException;
 
 
-public class DataReadingServiceImpl implements DataReadingService {
+public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 	
 	private final String url = "jdbc:sqlite:data.db";
     private Connection connection;
@@ -116,6 +116,29 @@ public class DataReadingServiceImpl implements DataReadingService {
 		connection.close();
 
 		return person;
+	}
+
+	@Override
+	public boolean writePerson(Person person) throws SQLException {
+
+		connection = DriverManager.getConnection(url);
+		Statement statement = connection.createStatement();
+		String sql = "INSERT INTO person(name, employment_status, local, gender, national_number) VALUES" +
+				"('" +
+				person.getName() +
+				"','" +
+				person.getEmploymentStatus() +
+				"'," +
+				person.isLocal() +
+				",'" +
+				person.getGender() +
+				"','" +
+				person.getNationalnumber() +
+				"')";
+
+		int affectedRows = statement.executeUpdate(sql);
+
+		return affectedRows > 0;
 	}
 
 //	Table Initialization

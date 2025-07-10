@@ -22,13 +22,13 @@ import com.formdev.flatlaf.FlatLightLaf;
 import ir.najaftech.gui.Contacts.ContactAdditionForm;
 import ir.najaftech.gui.Contacts.ContactListPanel;
 import ir.najaftech.model.Person;
-import ir.najaftech.services.DataWritingService;
-import ir.najaftech.services.DataWritingServiceImpl;
+import ir.najaftech.services.ContactRepositoryService;
+import ir.najaftech.services.ContactRepositoryServiceImpl;
 
 
 public class MainFrame extends JFrame {
 
-    private DataWritingService dataWritingService;
+    private ContactRepositoryService contactRepositoryService;
 
     JMenuBar menu;
     ContactListPanel textPanel;
@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() throws Exception {
         super("By Niggas, For Niggas");
-        dataWritingService = new DataWritingServiceImpl();
+        contactRepositoryService = new ContactRepositoryServiceImpl();
 
 
         menu = new JMenuBar();
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
                 e.setNationalNumber("");
             }
             Person p = new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber());
-            dataWritingService.writePerson(p);
+            contactRepositoryService.writePerson(p);
             textPanel.refreshData();
         });
         formPanel.setPreferredSize(new Dimension(350, 500));

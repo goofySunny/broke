@@ -7,12 +7,12 @@ import java.util.List;
 import javax.swing.*;
 
 import ir.najaftech.model.Person;
-import ir.najaftech.services.DataReadingService;
-import ir.najaftech.services.DataReadingServiceImpl;
+import ir.najaftech.services.ContactRepositoryService;
+import ir.najaftech.services.ContactRepositoryServiceImpl;
 
 public class ContactListPanel extends JPanel {
 
-    DataReadingService dataReadingService;
+    ContactRepositoryService contactRepositoryService;
 
     private final Object[][] placeHolderData = {{"Example", "???", "???", "???"}};
     private final String[] columns = {"Name", "Employment", "Gender", "local"};
@@ -77,8 +77,8 @@ public class ContactListPanel extends JPanel {
 
 //    Internal Util
     private void requestData() throws Exception {
-        dataReadingService = new DataReadingServiceImpl();
-        List<Person> people = dataReadingService.getAllPeople();
+        contactRepositoryService = new ContactRepositoryServiceImpl();
+        List<Person> people = contactRepositoryService.getAllPeople();
 
         for (Person p : people) {
             data = addEntry(data, p);
@@ -116,7 +116,7 @@ public class ContactListPanel extends JPanel {
         requestData();
         table = new CustomJTable(data, columns);
         this.repaint();
-        this.add(new JScrollPane(table), BorderLayout.CENTER);
+        layoutComponents();
         this.revalidate();
     }
 
