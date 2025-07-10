@@ -15,16 +15,18 @@ public class ContactListPanel extends JPanel {
 
     DataReadingService dataReadingService;
 
-    Object[][] data;
-    String[] columns = {"Name", "Employment", "Gender", "local"};
+    private final Object[][] placeHolderData = {{"Example", "???", "???", "???"}};
+    private final String[] columns = {"Name", "Employment", "Gender", "local"};
 
+
+    Object[][] data;
     CustomJTable table;
     
     public ContactListPanel() throws Exception {
         requestData();
 
         if (data == null) {
-            data = new Object[][]{{"Example", "???", "???", "???"}};
+            data = placeHolderData;
         }
 
         table = new CustomJTable(data, columns);
