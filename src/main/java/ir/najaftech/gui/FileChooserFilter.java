@@ -1,4 +1,4 @@
-package ir.najaftech.gui.Contacts;
+package ir.najaftech.gui;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;;
