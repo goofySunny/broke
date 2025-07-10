@@ -35,25 +35,9 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 			res= statement.executeQuery(prepare);
 		}
 		while(res.next()) {
-        	
-		EmploymentStatus empStatus = null;
-		Gender gen = null;
 
-//        	Find Correct Enum
-		for (EmploymentStatus emp : EmploymentStatus.values()) {
-			if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
-				empStatus = emp;
-				break;
-			}
-		}
-
-//        	Find Correct Enum        	
-		for (Gender sex : Gender.values()) {
-			if (res.getString("gender").equalsIgnoreCase(sex.toString())) {
-				gen = sex;
-				break;
-			}
-		}
+		EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
+		Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
 
 		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
 
@@ -83,24 +67,9 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 		res.next();
 
 		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
-		EmploymentStatus empStatus = null;
-		Gender gen = null;
 
-//        	Find Correct Enum
-		for (EmploymentStatus emp : EmploymentStatus.values()) {
-			if (res.getString("employment_status").equalsIgnoreCase(emp.toString())) {
-				empStatus = emp;
-				break;
-			}
-		}
-
-//        	Find Correct Enum        	
-		for (Gender sex : Gender.values()) {
-			if (res.getString("gender").equalsIgnoreCase(sex.toString())) {
-				gen = sex;
-				break;
-			}
-		}
+		EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
+		Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
 
 		res.getLong("id");
 		res.getString("name");
@@ -150,8 +119,16 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 		stmt.close();
 		connection.close();
 	}
-	
-//	TODO : extract the repetetive code into a method
+
+	private <E extends Enum<?>> E iterateThroughEnum(String text, Class<E> enumeratedValue) {
+
+		for (E e: enumeratedValue.getEnumConstants()) {
+			if (text.equalsIgnoreCase(e.toString())) {
+				return e;
+			}
+		}
+		return null;
+	}
 
 }
 
