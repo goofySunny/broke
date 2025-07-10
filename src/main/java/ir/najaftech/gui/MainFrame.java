@@ -19,9 +19,8 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import ir.najaftech.gui.Contacts.FileChooserFilter;
-import ir.najaftech.gui.Contacts.FormPanel;
-import ir.najaftech.gui.Contacts.TextPanel;
+import ir.najaftech.gui.Contacts.ContactAdditionForm;
+import ir.najaftech.gui.Contacts.ContactListPanel;
 import ir.najaftech.model.Person;
 import ir.najaftech.services.DataWritingService;
 import ir.najaftech.services.DataWritingServiceImpl;
@@ -32,8 +31,8 @@ public class MainFrame extends JFrame {
     private DataWritingService dataWritingService;
 
     JMenuBar menu;
-    TextPanel textPanel;
-    FormPanel formPanel;
+    ContactListPanel textPanel;
+    ContactAdditionForm formPanel;
 
     private JFileChooser fileChooser;
 
@@ -48,10 +47,10 @@ public class MainFrame extends JFrame {
         fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new FileChooserFilter());
         
-        textPanel = new TextPanel();
+        textPanel = new ContactListPanel();
         textPanel.setPreferredSize(new Dimension(350, 500));
 
-        formPanel = new FormPanel();
+        formPanel = new ContactAdditionForm();
         formPanel.setEventObjectEmitter(e -> {
             if (e.getNationalNumber() == null) {
                 e.setNationalNumber("");

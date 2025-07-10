@@ -11,7 +11,7 @@ import ir.najaftech.model.Person;
 import ir.najaftech.services.DataReadingService;
 import ir.najaftech.services.DataReadingServiceImpl;
 
-public class TextPanel extends JPanel {
+public class ContactListPanel extends JPanel {
 
     DataReadingService dataReadingService;
 
@@ -20,7 +20,7 @@ public class TextPanel extends JPanel {
 
     CustomJTable table;
     
-    public TextPanel() throws Exception {
+    public ContactListPanel() throws Exception {
         requestData();
 
         if (data == null) {

@@ -18,7 +18,7 @@ import ir.najaftech.model.EmploymentStatus;
 import ir.najaftech.model.Gender;
 
 
-public class FormPanel extends JPanel {
+public class ContactAdditionForm extends JPanel {
 
     JTextField nameField;
     JComboBox<Object> employmentStatus;
@@ -31,7 +31,7 @@ public class FormPanel extends JPanel {
 
     private EventObjectEmitter eventObjectEmitter;
 
-    public FormPanel() {
+    public ContactAdditionForm() {
         nameField = new JTextField();
 
         employmentStatus = new JComboBox<>();
