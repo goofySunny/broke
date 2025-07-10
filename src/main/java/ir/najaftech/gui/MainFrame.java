@@ -19,6 +19,9 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import ir.najaftech.gui.Contacts.FileChooserFilter;
+import ir.najaftech.gui.Contacts.FormPanel;
+import ir.najaftech.gui.Contacts.TextPanel;
 import ir.najaftech.model.Person;
 import ir.najaftech.services.DataWritingService;
 import ir.najaftech.services.DataWritingServiceImpl;

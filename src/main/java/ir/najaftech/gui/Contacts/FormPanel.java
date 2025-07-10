@@ -1,9 +1,8 @@
-package ir.najaftech.gui;
+package ir.najaftech.gui.Contacts;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
