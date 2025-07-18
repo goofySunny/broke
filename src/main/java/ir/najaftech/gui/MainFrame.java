@@ -1,7 +1,6 @@
 package ir.najaftech.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -19,47 +18,28 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import ir.najaftech.gui.Contacts.ContactAdditionForm;
-import ir.najaftech.gui.Contacts.ContactListPanel;
-import ir.najaftech.model.Person;
-import ir.najaftech.services.ContactRepositoryService;
-import ir.najaftech.services.ContactRepositoryServiceImpl;
+import ir.najaftech.gui.Contacts.ContactParentPanel;
 
 
 public class MainFrame extends JFrame {
 
-    private ContactRepositoryService contactRepositoryService;
 
     JMenuBar menu;
-    ContactListPanel textPanel;
-    ContactAdditionForm formPanel;
+    ContactParentPanel contactParentFrame;
+
 
     private JFileChooser fileChooser;
 
     public MainFrame() throws Exception {
         super("By Niggas, For Niggas");
-        contactRepositoryService = new ContactRepositoryServiceImpl();
 
+        contactParentFrame = new ContactParentPanel();
 
         menu = new JMenuBar();
         initMenu();
 
         fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new FileChooserFilter());
-        
-        textPanel = new ContactListPanel();
-        textPanel.setPreferredSize(new Dimension(350, 500));
-
-        formPanel = new ContactAdditionForm();
-        formPanel.setEventObjectEmitter(e -> {
-            if (e.getNationalNumber() == null) {
-                e.setNationalNumber("");
-            }
-            Person p = new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber());
-            contactRepositoryService.writePerson(p);
-            textPanel.refreshData();
-        });
-        formPanel.setPreferredSize(new Dimension(350, 500));
 
         setVisible(true);
         setSize(700, 500);
@@ -67,8 +47,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
-        add(textPanel, BorderLayout.CENTER);
-        add(formPanel, BorderLayout.WEST);
+        add(contactParentFrame);
     }
 
     private void initMenu() {
