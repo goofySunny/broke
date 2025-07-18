@@ -1,48 +1,84 @@
-package ir.najaftech.gui;
+package ir.najaftech.gui.Contacts;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.*;
 
 import ir.najaftech.model.Person;
-import ir.najaftech.services.DataReadingService;
-import ir.najaftech.services.DataReadingServiceImpl;
+import ir.najaftech.services.ContactRepositoryService;
+import ir.najaftech.services.ContactRepositoryServiceImpl;
 
-public class TextPanel extends JPanel {
+public class ContactListPanel extends JPanel {
 
-    DataReadingService dataReadingService;
+    ContactRepositoryService contactRepositoryService;
+
+    private final Object[][] placeHolderData = {{"Example", "???", "???", "???"}};
+    private final String[] columns = {"Name", "Employment", "Gender", "local"};
+
 
     Object[][] data;
-    String[] columns = {"Name", "Employment", "Gender", "local"};
-
     CustomJTable table;
     
-    public TextPanel() throws Exception {
+    public ContactListPanel() throws Exception {
         requestData();
 
         if (data == null) {
-            data = new Object[][]{{"Example", "???", "???", "???"}};
+            data = placeHolderData;
         }
 
         table = new CustomJTable(data, columns);
         table.setShowGrid(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout());
         setVisible(true);
-        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         setPreferredSize(new Dimension(1000,1000));
-        add(new JScrollPane(table), BorderLayout.CENTER);
+
+        layoutComponents();
+    }
+
+    private void layoutComponents() {
+        GridBagConstraints gc = new GridBagConstraints();
+
+//        First Row (Table)
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.weightx = 3;
+        gc.weighty = 3;
+        gc.gridwidth = 2;
+        gc.fill = GridBagConstraints.BOTH;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        add(new JScrollPane(table), gc);
+
+//        Next Row
+        gc.gridwidth = 1;
+        gc.weightx = 1;
+        gc.fill = GridBagConstraints.VERTICAL;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.gridx = 0;
+        gc.gridy = 1;
+        gc.weighty = 0.01;
+
+        add(new JButton("Edit"), gc);
+
+        //        Next Row
+        gc.fill = GridBagConstraints.VERTICAL;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.weighty = 0.01;
+
+        add(new JButton("Delete"), gc);
     }
 
 
 //    Internal Util
     private void requestData() throws Exception {
-        dataReadingService = new DataReadingServiceImpl();
-        List<Person> people = dataReadingService.getAllPeople();
+        contactRepositoryService = new ContactRepositoryServiceImpl();
+        List<Person> people = contactRepositoryService.getAllPeople();
 
         for (Person p : people) {
             data = addEntry(data, p);
@@ -80,7 +116,7 @@ public class TextPanel extends JPanel {
         requestData();
         table = new CustomJTable(data, columns);
         this.repaint();
-        this.add(new JScrollPane(table), BorderLayout.CENTER);
+        layoutComponents();
         this.revalidate();
     }
 

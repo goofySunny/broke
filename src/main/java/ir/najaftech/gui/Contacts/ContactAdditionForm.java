@@ -1,9 +1,8 @@
-package ir.najaftech.gui;
+package ir.najaftech.gui.Contacts;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -19,7 +18,7 @@ import ir.najaftech.model.EmploymentStatus;
 import ir.najaftech.model.Gender;
 
 
-public class FormPanel extends JPanel {
+public class ContactAdditionForm extends JPanel {
 
     JTextField nameField;
     JComboBox<Object> employmentStatus;
@@ -32,7 +31,7 @@ public class FormPanel extends JPanel {
 
     private EventObjectEmitter eventObjectEmitter;
 
-    public FormPanel() {
+    public ContactAdditionForm() {
         nameField = new JTextField();
 
         employmentStatus = new JComboBox<>();

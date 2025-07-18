@@ -1,6 +1,4 @@
-package ir.najaftech.gui;
-
-import java.sql.SQLException;
+package ir.najaftech.gui.Contacts;
 
 public interface EventObjectEmitter {
 

@@ -1,4 +1,4 @@
-package ir.najaftech.gui;
+package ir.najaftech.gui.Contacts;
 
 import javax.swing.*;
 

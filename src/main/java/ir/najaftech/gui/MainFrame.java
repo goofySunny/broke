@@ -1,8 +1,8 @@
 package ir.najaftech.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -19,45 +19,25 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import ir.najaftech.model.Person;
-import ir.najaftech.services.DataWritingService;
-import ir.najaftech.services.DataWritingServiceImpl;
+import ir.najaftech.gui.Contacts.ContactParentPanel;
 
 
 public class MainFrame extends JFrame {
 
-    private DataWritingService dataWritingService;
 
     JMenuBar menu;
-    TextPanel textPanel;
-    FormPanel formPanel;
+
 
     private JFileChooser fileChooser;
 
-    public MainFrame() throws Exception {
-        super("By Niggas, For Niggas");
-        dataWritingService = new DataWritingServiceImpl();
-
+    public MainFrame() {
+        super("By Najaf, For Najaf");
 
         menu = new JMenuBar();
         initMenu();
 
         fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new FileChooserFilter());
-        
-        textPanel = new TextPanel();
-        textPanel.setPreferredSize(new Dimension(350, 500));
-
-        formPanel = new FormPanel();
-        formPanel.setEventObjectEmitter(e -> {
-            if (e.getNationalNumber() == null) {
-                e.setNationalNumber("");
-            }
-            Person p = new Person(e.getName(), e.getEmploymentStatus(), e.getGender(), e.getNationalNumber());
-            dataWritingService.writePerson(p);
-            textPanel.refreshData();
-        });
-        formPanel.setPreferredSize(new Dimension(350, 500));
 
         setVisible(true);
         setSize(700, 500);
@@ -65,12 +45,12 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
-        add(textPanel, BorderLayout.CENTER);
-        add(formPanel, BorderLayout.WEST);
+//        add(contactParentFrame);
     }
 
     private void initMenu() {
 
+//        File Menu Config
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         JMenuItem importMenuItem = new JMenuItem("Import Data...");
@@ -82,7 +62,7 @@ public class MainFrame extends JFrame {
             fileChooser.showSaveDialog(MainFrame.this);
         });
         JMenuItem exitMenuItem = new JMenuItem("Exit");
-        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 
         exitMenuItem.addActionListener(e -> {
             int exit = JOptionPane.showConfirmDialog(MainFrame.this, "Quit application?",  "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
@@ -96,6 +76,7 @@ public class MainFrame extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
 
+//        Window Menu Config
         JMenu windowMenu = new JMenu("Window");
         JCheckBoxMenuItem flatLafCheckbox = new JCheckBoxMenuItem("Light Theme");
         flatLafCheckbox.addActionListener(e -> {
@@ -118,6 +99,16 @@ public class MainFrame extends JFrame {
             }
         });
         windowMenu.add(flatLafCheckbox);
+        JMenuItem contactMenu = new JMenuItem("Contact Management");
+        contactMenu.addActionListener(e -> {
+            try {
+                this.add(new ContactParentPanel());
+            } catch (Exception ex) {
+                throw new RuntimeException("Something went wrong");
+            }
+            revalidate();
+        });
+        windowMenu.add(contactMenu);
 
 
         menu.add(fileMenu);
