@@ -13,13 +13,8 @@ public class App {
     public static void main(String[] args) throws Exception {
         
         EventQueue.invokeLater(() -> {
-            FlatLightLaf.setup();
             FlatDarculaLaf.setup();
-            try {
-                new MainFrame();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            new MainFrame();
         });
 
     }

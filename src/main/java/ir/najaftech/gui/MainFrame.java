@@ -2,6 +2,7 @@ package ir.najaftech.gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -25,15 +26,12 @@ public class MainFrame extends JFrame {
 
 
     JMenuBar menu;
-//    ContactParentPanel contactParentFrame;
 
 
     private JFileChooser fileChooser;
 
-    public MainFrame() throws Exception {
+    public MainFrame() {
         super("By Najaf, For Najaf");
-
-//        contactParentFrame = new ContactParentPanel();
 
         menu = new JMenuBar();
         initMenu();
@@ -64,7 +62,7 @@ public class MainFrame extends JFrame {
             fileChooser.showSaveDialog(MainFrame.this);
         });
         JMenuItem exitMenuItem = new JMenuItem("Exit");
-        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 
         exitMenuItem.addActionListener(e -> {
             int exit = JOptionPane.showConfirmDialog(MainFrame.this, "Quit application?",  "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
