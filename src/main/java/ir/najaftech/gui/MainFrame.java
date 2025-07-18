@@ -25,15 +25,15 @@ public class MainFrame extends JFrame {
 
 
     JMenuBar menu;
-    ContactParentPanel contactParentFrame;
+//    ContactParentPanel contactParentFrame;
 
 
     private JFileChooser fileChooser;
 
     public MainFrame() throws Exception {
-        super("By Niggas, For Niggas");
+        super("By Najaf, For Najaf");
 
-        contactParentFrame = new ContactParentPanel();
+//        contactParentFrame = new ContactParentPanel();
 
         menu = new JMenuBar();
         initMenu();
@@ -47,11 +47,12 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
-        add(contactParentFrame);
+//        add(contactParentFrame);
     }
 
     private void initMenu() {
 
+//        File Menu Config
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         JMenuItem importMenuItem = new JMenuItem("Import Data...");
@@ -77,6 +78,7 @@ public class MainFrame extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
 
+//        Window Menu Config
         JMenu windowMenu = new JMenu("Window");
         JCheckBoxMenuItem flatLafCheckbox = new JCheckBoxMenuItem("Light Theme");
         flatLafCheckbox.addActionListener(e -> {
@@ -99,6 +101,16 @@ public class MainFrame extends JFrame {
             }
         });
         windowMenu.add(flatLafCheckbox);
+        JMenuItem contactMenu = new JMenuItem("Contact Management");
+        contactMenu.addActionListener(e -> {
+            try {
+                this.add(new ContactParentPanel());
+            } catch (Exception ex) {
+                throw new RuntimeException("Something went wrong");
+            }
+            revalidate();
+        });
+        windowMenu.add(contactMenu);
 
 
         menu.add(fileMenu);
