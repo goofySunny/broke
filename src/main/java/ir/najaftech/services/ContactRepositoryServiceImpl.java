@@ -60,10 +60,9 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 		Person person;
 
 		connection = DriverManager.getConnection(url);
-		Statement statement = connection.createStatement();
-		String prepare = "SELECT * FROM person WHERE id = " + id;
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE id = ?");
 
-		ResultSet res = statement.executeQuery(prepare);
+		ResultSet res = statement.executeQuery();
 		res.next();
 
 		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
@@ -76,7 +75,7 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 
 		person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
 
-//			If there is more rows returned throw Exception
+//		If there is more rows returned throw Exception
 		if (res.next()) {
 				throw new Exception();
 		}
@@ -91,21 +90,14 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 	public boolean writePerson(Person person) throws SQLException {
 
 		connection = DriverManager.getConnection(url);
-		Statement statement = connection.createStatement();
-		String sql = "INSERT INTO person(name, employment_status, local, gender, national_number) VALUES" +
-				"('" +
-				person.getName() +
-				"','" +
-				person.getEmploymentStatus() +
-				"'," +
-				person.isLocal() +
-				",'" +
-				person.getGender() +
-				"','" +
-				person.getNationalnumber() +
-				"')";
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO person(name, employment_status, local, gender, national_number) VALUES(?,?,?,?,?)");
+		statement.setString(1, person.getName());
+		statement.setString(2, person.getEmploymentStatus().toString());
+		statement.setBoolean(3, person.isLocal());
+		statement.setString(4, person.getGender().toString());
+		statement.setString(5, person.getNationalnumber());
 
-		int affectedRows = statement.executeUpdate(sql);
+		int affectedRows = statement.executeUpdate();
 
 		return affectedRows > 0;
 	}
