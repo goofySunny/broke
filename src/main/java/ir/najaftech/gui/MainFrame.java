@@ -105,30 +105,29 @@ public class MainFrame extends JFrame {
 
         JMenuItem contactMenu = new JMenuItem("Contact Management");
         contactMenu.addActionListener(e -> {
-            this.remove(displayingPanel);
-            
+            if (this.displayingPanel != null) this.remove(displayingPanel);
             try {
             this.displayingPanel = new ContactParentPanel();
             this.add(displayingPanel);
             } catch (Exception ex) {
                 System.out.println("Something went wrong");
             }
-            repaint();
             SwingUtilities.updateComponentTreeUI(this);
+            repaint();
         });
         windowMenu.add(contactMenu);
 
         JMenuItem expenseMenu = new JMenuItem("Expense Management");
-        contactMenu.addActionListener(e -> {
-            this.remove(displayingPanel);
+        expenseMenu.addActionListener(e -> {
+            if (this.displayingPanel != null) this.remove(displayingPanel);
             try {
                 this.displayingPanel = new ExpenseParentPanel();
                 this.add(displayingPanel);
             } catch (Exception ex) {
                 System.out.println("Something went wrong");
             }
-            repaint();
             SwingUtilities.updateComponentTreeUI(this);
+            repaint();
         });
         windowMenu.add(expenseMenu);
 
