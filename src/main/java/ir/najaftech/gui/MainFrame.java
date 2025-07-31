@@ -5,33 +5,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import ir.najaftech.gui.Contacts.ContactParentPanel;
-
+import ir.najaftech.gui.Expenses.ExpenseParentPanel;
 
 public class MainFrame extends JFrame {
 
 
     JMenuBar menu;
+    
+    JPanel displayingPanel;
 
 
     private JFileChooser fileChooser;
 
-    public MainFrame() {
+    public MainFrame(JPanel startingPoint) throws Exception {
         super("By Najaf, For Najaf");
+
+        initSelf();
+
+        if (startingPoint != null) {
+            this.displayingPanel = startingPoint;
+            this.add(displayingPanel);
+        }
+
+    }
+
+    private void initSelf() {
 
         menu = new JMenuBar();
         initMenu();
@@ -45,7 +49,6 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setJMenuBar(menu);
-//        add(contactParentFrame);
     }
 
     private void initMenu() {
@@ -99,16 +102,35 @@ public class MainFrame extends JFrame {
             }
         });
         windowMenu.add(flatLafCheckbox);
+
         JMenuItem contactMenu = new JMenuItem("Contact Management");
         contactMenu.addActionListener(e -> {
+            this.remove(displayingPanel);
+            
             try {
-                this.add(new ContactParentPanel());
+            this.displayingPanel = new ContactParentPanel();
+            this.add(displayingPanel);
             } catch (Exception ex) {
-                throw new RuntimeException("Something went wrong");
+                System.out.println("Something went wrong");
             }
-            revalidate();
+            repaint();
+            SwingUtilities.updateComponentTreeUI(this);
         });
         windowMenu.add(contactMenu);
+
+        JMenuItem expenseMenu = new JMenuItem("Expense Management");
+        contactMenu.addActionListener(e -> {
+            this.remove(displayingPanel);
+            try {
+                this.displayingPanel = new ExpenseParentPanel();
+                this.add(displayingPanel);
+            } catch (Exception ex) {
+                System.out.println("Something went wrong");
+            }
+            repaint();
+            SwingUtilities.updateComponentTreeUI(this);
+        });
+        windowMenu.add(expenseMenu);
 
 
         menu.add(fileMenu);
