@@ -1,5 +1,6 @@
 package ir.najaftech.gui.Contacts;
 
+import ir.najaftech.util.NumericTextFieldEnforcer;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

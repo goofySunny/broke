@@ -1,5 +1,6 @@
 package ir.najaftech.gui.Contacts;
 
+import ir.najaftech.util.CustomJTable;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
@@ -20,23 +21,34 @@ public class ContactListPanel extends JPanel {
 
     Object[][] data;
     CustomJTable table;
+    JButton editButton;
+    JButton deleteButton;
     
     public ContactListPanel() throws Exception {
         requestData();
-
-        if (data == null) {
-            data = placeHolderData;
-        }
-
-        table = new CustomJTable(data, columns);
-        table.setShowGrid(true);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        initSelf();
 
         setLayout(new GridBagLayout());
         setVisible(true);
         setPreferredSize(new Dimension(1000,1000));
 
         layoutComponents();
+    }
+    
+    public void initSelf() {
+        if (data == null) {
+            data = placeHolderData;
+        }
+        
+        table = new CustomJTable(data, columns);
+        table.setShowGrid(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        editButton = new JButton("Edit");
+        editButton.addActionListener(e -> {
+            Object[] selectedRow = data[table.getSelectedRow()];
+            new ContactEditPopUpFrame(selectedRow);
+        });
+        deleteButton = new JButton("Delete");
     }
 
     private void layoutComponents() {
@@ -62,7 +74,7 @@ public class ContactListPanel extends JPanel {
         gc.gridy = 1;
         gc.weighty = 0.01;
 
-        add(new JButton("Edit"), gc);
+        add(editButton, gc);
 
         //        Next Row
         gc.fill = GridBagConstraints.VERTICAL;
@@ -71,7 +83,7 @@ public class ContactListPanel extends JPanel {
         gc.gridy = 1;
         gc.weighty = 0.01;
 
-        add(new JButton("Delete"), gc);
+        add(deleteButton, gc);
     }
 
 
