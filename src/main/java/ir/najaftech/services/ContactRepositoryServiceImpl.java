@@ -9,127 +9,115 @@ import ir.najaftech.model.Gender;
 import ir.najaftech.model.Person;
 import org.sqlite.SQLiteException;
 
-
 public class ContactRepositoryServiceImpl implements ContactRepositoryService {
-	
-	private final String url = "jdbc:sqlite:data.db";
+
+    private final String url = "jdbc:sqlite:data.db";
     private Connection connection;
 
 //	Query ALL from person table and instantiate new Person Objects for each row 
-	@Override
-	public List<Person> getAllPeople() throws Exception {
-    
-		List<Person> people = new ArrayList<>();
-		
+    @Override
+    public List<Person> getAllPeople() throws Exception {
+
+        List<Person> people = new ArrayList<>();
 
         connection = DriverManager.getConnection(url);
-        
+
         Statement statement = connection.createStatement();
-        
+
         String prepare = "SELECT * FROM person";
-		ResultSet res;
-		try {
-			res = statement.executeQuery(prepare);
-		} catch (SQLiteException e) {
-			createTable();
-			res= statement.executeQuery(prepare);
-		}
-		while(res.next()) {
+        ResultSet res;
+        try {
+            res = statement.executeQuery(prepare);
+        } catch (SQLiteException e) {
+            createTable();
+            res = statement.executeQuery(prepare);
+        }
+        while (res.next()) {
 
-		EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
-		Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
+            EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
+            Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
 
-		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
+            String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
 
-		Person person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
+            Person person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
 
-		people.add(person);
+            people.add(person);
 
-	}
-        
+        }
+
         statement.close();
         connection.close();
-        
+
         return people;
-	}
+    }
 
 //	Find only one person by their id
-	@Override
-	public Person getPersonById(long id) throws Exception {
-		
-		Person person;
+    @Override
+    public Person getPersonById(long id) throws Exception {
 
-		connection = DriverManager.getConnection(url);
-		PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE id = ?");
+        Person person;
 
-		ResultSet res = statement.executeQuery();
-		res.next();
+        connection = DriverManager.getConnection(url);
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE id = ?");
 
-		String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
+        ResultSet res = statement.executeQuery();
+        res.next();
 
-		EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
-		Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
+        String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
 
-		res.getLong("id");
-		res.getString("name");
+        EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
+        Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
 
-		person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
+        res.getLong("id");
+        res.getString("name");
+
+        person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
 
 //		If there is more rows returned throw Exception
-		if (res.next()) {
-				throw new Exception();
-		}
+        if (res.next()) {
+            throw new Exception();
+        }
 
-		statement.close();
-		connection.close();
+        statement.close();
+        connection.close();
 
-		return person;
-	}
+        return person;
+    }
 
-	@Override
-	public boolean writePerson(Person person) throws SQLException {
+    @Override
+    public boolean writePerson(Person person) throws SQLException {
 
-		connection = DriverManager.getConnection(url);
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO person(name, employment_status, local, gender, national_number) VALUES(?,?,?,?,?)");
-		statement.setString(1, person.getName());
-		statement.setString(2, person.getEmploymentStatus().toString());
-		statement.setBoolean(3, person.isLocal());
-		statement.setString(4, person.getGender().toString());
-		statement.setString(5, person.getNationalnumber());
+        connection = DriverManager.getConnection(url);
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO person(name, employment_status, local, gender, national_number) VALUES(?,?,?,?,?)");
+        statement.setString(1, person.getName());
+        statement.setString(2, person.getEmploymentStatus().toString());
+        statement.setBoolean(3, person.isLocal());
+        statement.setString(4, person.getGender().toString());
+        statement.setString(5, person.getNationalnumber());
 
-		int affectedRows = statement.executeUpdate();
+        int affectedRows = statement.executeUpdate();
 
-		return affectedRows > 0;
-	}
+        return affectedRows > 0;
+    }
 
 //	Table Initialization
-	private void createTable() throws SQLException {
-		Connection connection = DriverManager.getConnection(url);
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("CREATE TABLE person(id INTEGER PRIMARY KEY UNIQUE, name VARCHAR(255) NOT NULL, employment_status VARCHAR(255) NOT NULL, gender VARCHAR(7) NOT NULL," +
-				"local BOOLEAN NOT NULL, national_number VARCHAR(255))");
-		stmt.close();
-		connection.close();
-	}
+    private void createTable() throws SQLException {
+        Connection connection = DriverManager.getConnection(url);
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate("CREATE TABLE person(id INTEGER PRIMARY KEY UNIQUE, name VARCHAR(255) NOT NULL, employment_status VARCHAR(255) NOT NULL, gender VARCHAR(7) NOT NULL,"
+                + "local BOOLEAN NOT NULL, national_number VARCHAR(255))");
+        stmt.close();
+        connection.close();
+    }
 
-	private <E extends Enum<?>> E iterateThroughEnum(String text, Class<E> enumeratedValue) {
+    private <E extends Enum<?>> E iterateThroughEnum(String text, Class<E> enumeratedValue) {
 
-		for (E e: enumeratedValue.getEnumConstants()) {
-			if (text.equalsIgnoreCase(e.toString())) {
-				return e;
-			}
-		}
-		return null;
-	}
+        for (E e : enumeratedValue.getEnumConstants()) {
+            if (text.equalsIgnoreCase(e.toString())) {
+                return e;
+            }
+        }
+        return null;
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
