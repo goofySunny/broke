@@ -24,7 +24,7 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 
         Statement statement = connection.createStatement();
 
-        String prepare = "SELECT * FROM person";
+        String prepare = "SELECT * FROM person ORDER BY ID ASC";
         ResultSet res;
         try {
             res = statement.executeQuery(prepare);
