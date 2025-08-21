@@ -12,6 +12,8 @@ import ir.najaftech.services.ContactRepositoryService;
 import ir.najaftech.services.ContactRepositoryServiceImpl;
 
 public class ContactListPanel extends JPanel {
+    
+    public boolean isEditing = false;
 
     ContactRepositoryService contactRepositoryService;
 
@@ -19,7 +21,8 @@ public class ContactListPanel extends JPanel {
     private final String[] columns = {"Name", "Employment", "Gender", "local"};
 
 
-    Object[][] data;
+    List<Person> people;
+    Object[][] tableData;
     CustomJTable table;
     JButton editButton;
     JButton deleteButton;
@@ -36,17 +39,18 @@ public class ContactListPanel extends JPanel {
     }
     
     public void initSelf() {
-        if (data == null) {
-            data = placeHolderData;
+        if (tableData == null) {
+            tableData = placeHolderData;
         }
         
-        table = new CustomJTable(data, columns);
+        table = new CustomJTable(tableData, columns);
         table.setShowGrid(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         editButton = new JButton("Edit");
         editButton.addActionListener(e -> {
-            if (table.getSelectedRow() != -1) {
-                Object[] selectedRow = data[table.getSelectedRow()];
+            if (table.getSelectedRow() != -1 && isEditing == false) {
+                isEditing = true;
+                Person selectedRow = people.get(table.getSelectedRow());
                 new ContactEditPopUpFrame(selectedRow, this);
             }
         });
@@ -93,9 +97,10 @@ public class ContactListPanel extends JPanel {
     private void requestData() throws Exception {
         contactRepositoryService = new ContactRepositoryServiceImpl();
         List<Person> people = contactRepositoryService.getAllPeople();
+        this.people = people;
 
         for (Person p : people) {
-            data = addEntry(data, p);
+            tableData = addEntry(tableData, p);
         }
     }
 
@@ -123,12 +128,12 @@ public class ContactListPanel extends JPanel {
         return newArray;
     }
 
-//    Public Method to call when data is changed
+//    Public Method to call when tableData is changed
     public void refreshData() throws Exception {
         this.removeAll();
-        data = null;
+        tableData = null;
         requestData();
-        table = new CustomJTable(data, columns);
+        table = new CustomJTable(tableData, columns);
         this.repaint();
         layoutComponents();
         this.revalidate();
