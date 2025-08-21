@@ -45,8 +45,10 @@ public class ContactListPanel extends JPanel {
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         editButton = new JButton("Edit");
         editButton.addActionListener(e -> {
-            Object[] selectedRow = data[table.getSelectedRow()];
-            new ContactEditPopUpFrame(selectedRow);
+            if (table.getSelectedRow() != -1) {
+                Object[] selectedRow = data[table.getSelectedRow()];
+                new ContactEditPopUpFrame(selectedRow, this);
+            }
         });
         deleteButton = new JButton("Delete");
     }
