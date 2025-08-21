@@ -6,6 +6,7 @@ public class CustomJTable extends JTable {
 
     public CustomJTable(Object[][] data, Object[] columns) {
         super(data, columns);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     @Override
