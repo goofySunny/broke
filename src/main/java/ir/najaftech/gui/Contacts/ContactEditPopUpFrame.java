@@ -4,6 +4,7 @@
  */
 package ir.najaftech.gui.Contacts;
 
+import ir.najaftech.model.Person;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -23,18 +24,23 @@ public class ContactEditPopUpFrame extends JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public ContactEditPopUpFrame(Object[] arg, ContactListPanel callerClass) {
+    public ContactEditPopUpFrame(Person arg, ContactListPanel callerClass) {
+        System.out.println(arg.toString());
         this.callerClass = callerClass;
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
-        this.jTextField1.setText((String) arg[0]);
-        System.out.println((String) arg[1]);
-        switch ((String) arg[1]) {
-            case "Employed" -> this.jComboBox1.setSelectedIndex(0);
-            case "Self_employed" -> this.jComboBox1.setSelectedIndex(1);
-            case "Unemployed" -> this.jComboBox1.setSelectedIndex(2);
+        this.jTextField1.setText(arg.getName());
+        if (arg.getEmploymentStatus().name().equalsIgnoreCase("Employed")) {
+            jComboBox1.setSelectedIndex(0);
+        } else if (arg.getEmploymentStatus().name().equalsIgnoreCase("Self_employed")) {
+            jComboBox1.setSelectedIndex(1);
+        } else if (arg.getEmploymentStatus().name().equalsIgnoreCase("Unemployed")) {
+            jComboBox1.setSelectedIndex(2);
         }
+        
+        jTextField2.setText(Long.toString(arg.getId()));
+        jTextField2.disable();
         
         jButton1.addActionListener(e -> {
             callerClass.isEditing = false;
@@ -102,7 +108,6 @@ public class ContactEditPopUpFrame extends JFrame {
 
         jLabel3.setText("ID: ");
 
-        jTextField2.setEditable(false);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
