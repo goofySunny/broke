@@ -4,18 +4,24 @@
  */
 package ir.najaftech.gui.Contacts;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
  *
  * @author sun
  */
-public class ContactEditPopUpFrame extends javax.swing.JFrame {
+public class ContactEditPopUpFrame extends JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContactEditPopUpFrame.class.getName());
-
+    
+    public ContactListPanel callerClass;
+    
     /**
      * Creates new form NewJFrame
      */
-    public ContactEditPopUpFrame(Object[] arg) {
+    public ContactEditPopUpFrame(Object[] arg, ContactListPanel callerClass) {
+        this.callerClass = callerClass;
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -26,7 +32,14 @@ public class ContactEditPopUpFrame extends javax.swing.JFrame {
             case "Self_employed" -> this.jComboBox1.setSelectedIndex(1);
             case "Unemployed" -> this.jComboBox1.setSelectedIndex(2);
         }
-        System.out.println(jComboBox1.getSelectedIndex());
+        
+        jButton1.addActionListener(e -> {
+            this.dispose();
+        });
+        
+        jButton2.addActionListener(e -> {
+            this.dispose();
+        });
     }
 
     /**
