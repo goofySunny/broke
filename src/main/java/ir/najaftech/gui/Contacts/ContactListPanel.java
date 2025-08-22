@@ -52,7 +52,12 @@ public class ContactListPanel extends JPanel {
             if (table.getSelectedRow() != -1 && isEditing == false) {
                 isEditing = true;
                 Person selectedRow = people.get(table.getSelectedRow());
-                new ContactEditPopUpFrame(selectedRow, this);
+                ContactEditPopUpFrame popup = new ContactEditPopUpFrame(selectedRow, this);
+                popup.setEventObjectEmitter(event -> {
+                    Person update = new Person(event.getId(), event.getName(), event.getEmploymentStatus(), event.getGender(), event.getNationalNumber());
+                    contactRepositoryService.updatePerson(update);
+                    refreshData();
+                });
             }
         });
         deleteButton = new JButton("Delete");

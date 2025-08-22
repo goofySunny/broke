@@ -9,6 +9,12 @@ import ir.najaftech.model.Gender;
 import ir.najaftech.model.Person;
 import org.sqlite.SQLiteException;
 
+
+/**
+ *
+ * @author sun
+ * 
+ */
 public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 
     private final String url = "jdbc:sqlite:data.db";
@@ -112,6 +118,28 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
             return false;
         }
 
+        return true;
+    }
+    
+    @Override
+    public boolean updatePerson(Person person) {
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            PreparedStatement prepare = connection.prepareStatement("UPDATE person SET name = ?, employment_status = ? WHERE id = ?");
+            prepare.setString(1, person.getName());
+            prepare.setString(2, person.getEmploymentStatus().name());
+            prepare.setLong(3, person.getId());
+            
+            
+            prepare.execute();
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
         return true;
     }
 

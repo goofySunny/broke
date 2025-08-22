@@ -4,23 +4,23 @@
  */
 package ir.najaftech.gui.Contacts;
 
+import ir.najaftech.model.EmploymentStatus;
 import ir.najaftech.model.Person;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
  * @author sun
  */
 public class ContactEditPopUpFrame extends JFrame {
-    
+
+    private EventObjectEmitter eventObjectEmitter;
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContactEditPopUpFrame.class.getName());
-    
     public ContactListPanel callerClass;
-    
+
     /**
      * Creates new form NewJFrame
      */
@@ -38,20 +38,42 @@ public class ContactEditPopUpFrame extends JFrame {
         } else if (arg.getEmploymentStatus().name().equalsIgnoreCase("Unemployed")) {
             jComboBox1.setSelectedIndex(2);
         }
-        
+
         jTextField2.setText(Long.toString(arg.getId()));
         jTextField2.disable();
-        
+
         jButton1.addActionListener(e -> {
             callerClass.isEditing = false;
             this.dispose();
         });
-        
+
         jButton2.addActionListener(e -> {
             callerClass.isEditing = false;
+            if (eventObjectEmitter != null) {
+                EmploymentStatus empStat = null;
+                switch (jComboBox1.getSelectedItem().toString()) {
+                    case "Employed":
+                        empStat = EmploymentStatus.EMPLOYED;
+                        break;
+                    case "Self_employed":
+                        empStat = EmploymentStatus.SELF_EMPLOYED;
+                        break;
+                    case "Unemployed":
+                        empStat = EmploymentStatus.UNEMPLOYED;
+                        break;
+                }
+                FormEvent formE = new FormEvent(this, jTextField1.getText(), empStat, arg.getGender());
+                formE.setNationalNumber(arg.getNationalnumber());
+                formE.setId((int) arg.getId());
+                try {
+                    eventObjectEmitter.emitObject(formE);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
             this.dispose();
         });
-        
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -178,6 +200,14 @@ public class ContactEditPopUpFrame extends JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    public EventObjectEmitter getEventObjectEmitter() {
+        return eventObjectEmitter;
+    }
+
+    public void setEventObjectEmitter(EventObjectEmitter eventObjectEmitter) {
+        this.eventObjectEmitter = eventObjectEmitter;
+    }
 
     /**
      * @param args the command line arguments
