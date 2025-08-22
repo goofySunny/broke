@@ -100,6 +100,21 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
         return affectedRows > 0;
     }
 
+    @Override
+    public boolean deletePersonById(int id) {
+        try {
+            connection = DriverManager.getConnection(url);
+            PreparedStatement prepare = connection.prepareStatement("DELETE FROM person WHERE id = ?");
+            prepare.setInt(1, id);
+            prepare.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
 //	Table Initialization
     private void createTable() throws SQLException {
         Connection connection = DriverManager.getConnection(url);

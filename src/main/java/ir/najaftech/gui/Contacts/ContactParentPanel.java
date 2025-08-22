@@ -20,6 +20,12 @@ public class ContactParentPanel extends JPanel {
 
         contactListPanel = new ContactListPanel();
         contactListPanel.setPreferredSize(new Dimension(350, 500));
+        contactListPanel.setEventObjectEmitter(e -> {
+            if (e.getId() != 0) {
+                contactRepositoryService.deletePersonById(e.getId());
+                contactListPanel.refreshData();
+            }
+        });
 
         contactAdditionForm = new ContactAdditionForm();
         contactAdditionForm.setEventObjectEmitter(e -> {

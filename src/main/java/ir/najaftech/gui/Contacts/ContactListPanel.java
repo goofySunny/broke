@@ -17,6 +17,7 @@ public class ContactListPanel extends JPanel {
 
     ContactRepositoryService contactRepositoryService;
 
+    private EventObjectEmitter eventObjectEmitter;
     private final Object[][] placeHolderData = {{"Example", "???", "???", "???"}};
     private final String[] columns = {"Name", "Employment", "Gender", "local"};
 
@@ -55,6 +56,16 @@ public class ContactListPanel extends JPanel {
             }
         });
         deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> {
+            if (eventObjectEmitter != null) {
+                FormEvent formE = new FormEvent(this, (int) people.get(table.getSelectedRow()).getId());
+                try {
+                    eventObjectEmitter.emitObject(formE);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     private void layoutComponents() {
@@ -137,6 +148,10 @@ public class ContactListPanel extends JPanel {
         this.repaint();
         layoutComponents();
         this.revalidate();
+    }
+    
+    public void setEventObjectEmitter(EventObjectEmitter eventObjectEmitter) {
+        this.eventObjectEmitter = eventObjectEmitter;
     }
 
 }

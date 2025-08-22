@@ -12,4 +12,6 @@ public interface ContactRepositoryService {
     Person getPersonById(long id) throws Exception;
 
     boolean writePerson(Person person) throws SQLException;
+    
+    boolean deletePersonById(int id);
 }
