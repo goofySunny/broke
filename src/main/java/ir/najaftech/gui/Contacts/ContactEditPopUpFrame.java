@@ -79,6 +79,7 @@ public class ContactEditPopUpFrame extends JFrame {
         jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Name: ");
 
