@@ -6,6 +6,7 @@ package ir.najaftech.services;
 
 import ir.najaftech.model.Expense;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -17,7 +18,7 @@ public interface ExpenseRepositoryService {
     
     List<Expense> getAll();
     
-    Expense getById(long id);
+    Optional<Expense> getById(long id);
     
     boolean update(long id, Expense expense);
     

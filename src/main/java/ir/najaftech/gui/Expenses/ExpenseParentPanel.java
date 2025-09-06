@@ -4,6 +4,8 @@
  */
 package ir.najaftech.gui.Expenses;
 
+import ir.najaftech.services.ExpenseRepositoryService;
+import ir.najaftech.services.ExpenseRepositoryServiceImpl;
 import ir.najaftech.util.NumericTextFieldEnforcer;
 
 /**
@@ -12,11 +14,14 @@ import ir.najaftech.util.NumericTextFieldEnforcer;
  */
 public class ExpenseParentPanel extends javax.swing.JPanel {
 
+    private ExpenseRepositoryService expenseRepo;
+    
     /**
      * Creates new form ExpensePanelParent
      */
     public ExpenseParentPanel() {
         initComponents();
+        expenseRepo = new ExpenseRepositoryServiceImpl();
         jTextField1.addKeyListener(new NumericTextFieldEnforcer());
     }
 

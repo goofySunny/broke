@@ -14,14 +14,23 @@ public class Expense {
     private double amount;
     private String description;
     private ExpenseType expenseType;
+    private Person person;
 
-    public Expense(long id, double amount, String description, ExpenseType expenseType) {
+    public Expense(long id, double amount, String description, ExpenseType expenseType, Person person) {
         this.id = id;
         this.amount = amount;
         this.description = description;
         this.expenseType = expenseType;
+        this.person = person;
     }
 
+    public Expense(double amount, String description, ExpenseType expenseType, Person person) {
+        this.amount = amount;
+        this.description = description;
+        this.expenseType = expenseType;
+        this.person = person;
+    }
+    
     public Expense(double amount, String description, ExpenseType expenseType) {
         this.amount = amount;
         this.description = description;
@@ -58,5 +67,13 @@ public class Expense {
 
     public void setExpenseType(ExpenseType expenseType) {
         this.expenseType = expenseType;
+    }
+    
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+    
+    public Person getPerson() {
+        return person;
     }
 }
