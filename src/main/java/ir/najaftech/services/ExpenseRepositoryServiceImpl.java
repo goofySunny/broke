@@ -124,9 +124,11 @@ public class ExpenseRepositoryServiceImpl implements ExpenseRepositoryService {
     private Connection initConnection(Connection con) throws SQLException {
         try {
             con = DriverManager.getConnection(url);
+            return con;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private Expense mapObject(ResultSet res) throws SQLException, Exception {
