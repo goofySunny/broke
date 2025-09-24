@@ -7,13 +7,13 @@ import java.util.List;
 import ir.najaftech.model.EmploymentStatus;
 import ir.najaftech.model.Gender;
 import ir.najaftech.model.Person;
+import java.util.Optional;
 import org.sqlite.SQLiteException;
-
 
 /**
  *
  * @author sun
- * 
+ *
  */
 public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 
@@ -120,27 +120,59 @@ public class ContactRepositoryServiceImpl implements ContactRepositoryService {
 
         return true;
     }
-    
+
     @Override
     public boolean updatePerson(Person person) {
-        
+
         try {
             connection = DriverManager.getConnection(url);
             PreparedStatement prepare = connection.prepareStatement("UPDATE person SET name = ?, employment_status = ? WHERE id = ?");
             prepare.setString(1, person.getName());
             prepare.setString(2, person.getEmploymentStatus().name());
             prepare.setLong(3, person.getId());
-            
-            
+
             prepare.execute();
-            
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-        
+
         return true;
+    }
+
+    @Override
+    public Optional<Person> getPersonByName(String name) {
+        Person person;
+        try {
+            connection = DriverManager.getConnection(url);
+
+            PreparedStatement prepare = connection.prepareStatement("SELECT * FROM person WHERE name = ?");
+            prepare.setString(1, name);
+
+            ResultSet res = prepare.executeQuery();
+            res.next();
+
+            String nationalNum = res.getString("national_number") != null ? res.getString("national_number") : "";
+
+            EmploymentStatus empStatus = iterateThroughEnum(res.getString("employment_status"), EmploymentStatus.class);
+            Gender gen = iterateThroughEnum(res.getString("gender"), Gender.class);
+
+            res.getLong("id");
+            res.getString("name");
+
+            person = new Person(res.getLong("id"), res.getString("name"), empStatus, gen, nationalNum);
+
+//            If next row is present throw error
+            if (res.next()) {
+                throw new Exception("More than one row returned");
+            }
+            return Optional.of(person);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
 //	Table Initialization
