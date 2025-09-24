@@ -23,6 +23,17 @@ public class ExpenseParentPanel extends javax.swing.JPanel {
         initComponents();
         expenseRepo = new ExpenseRepositoryServiceImpl();
         jTextField1.addKeyListener(new NumericTextFieldEnforcer());
+        jButton1.addActionListener(e -> {
+//            Record all current values in the controls - PENDING
+
+//            If there are no contacts do nothing but if there are more than one found with the same name 
+//            Open a new Panel allowing users to choose between the Contacts with the same name - PENDING
+
+//            If the Contact name doesnt exist an Error dialouge pops up 
+//            that says There Contact with the specified name not found - PENDING
+
+//            And attempt to persist the new Expense in the database - PENDING
+        });
     }
 
     /**

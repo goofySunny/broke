@@ -3,3 +3,4 @@ bin/
 .vscode/
 target/
 *.db
+/nbactions.xml
