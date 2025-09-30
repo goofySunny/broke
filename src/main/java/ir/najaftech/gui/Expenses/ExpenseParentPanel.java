@@ -4,6 +4,11 @@
  */
 package ir.najaftech.gui.Expenses;
 
+import ir.najaftech.model.Expense;
+import ir.najaftech.model.ExpenseType;
+import ir.najaftech.model.Person;
+import ir.najaftech.services.ContactRepositoryService;
+import ir.najaftech.services.ContactRepositoryServiceImpl;
 import ir.najaftech.services.ExpenseRepositoryService;
 import ir.najaftech.services.ExpenseRepositoryServiceImpl;
 import ir.najaftech.util.NumericTextFieldEnforcer;
@@ -15,22 +20,38 @@ import ir.najaftech.util.NumericTextFieldEnforcer;
 public class ExpenseParentPanel extends javax.swing.JPanel {
 
     private ExpenseRepositoryService expenseRepo;
-    
+    private ContactRepositoryService contactRepo;
+
     /**
      * Creates new form ExpensePanelParent
      */
     public ExpenseParentPanel() {
         initComponents();
+        contactRepo = new ContactRepositoryServiceImpl();
         expenseRepo = new ExpenseRepositoryServiceImpl();
         jTextField1.addKeyListener(new NumericTextFieldEnforcer());
         jButton1.addActionListener(e -> {
 //            Record all current values in the controls - PENDING
-
+            String desc = jTextArea1.getText();
+            String relatedUserName = jTextField2.getText();
+            long expenseAmount = Long.parseLong(jTextField1.getText());
+            ExpenseType expenseType = ExpenseType.valueOf(jComboBox1.getSelectedItem().toString());
 //            If there are no contacts do nothing but if there are more than one found with the same name 
 //            Open a new Panel allowing users to choose between the Contacts with the same name - PENDING
 
 //            If the Contact name doesnt exist an Error dialouge pops up 
 //            that says There Contact with the specified name not found - PENDING
+            if (!relatedUserName.isEmpty()) {
+//                If the below method throws an error we need to open a new Jpanel displaying all the contacts with the name specified
+//                So the user may choose which one he meant to relate it to.
+                Person contact = contactRepo.getPersonByName(relatedUserName).orElse(null);
+                if (contact != null) {
+                    Expense expense = new Expense(expenseAmount, desc, expenseType, contact);
+                    expenseRepo.save(expense);
+                } else {
+//                    Show an Error Dialogue Saying the contact by the specified name was not found
+                }
+            }
 
 //            And attempt to persist the new Expense in the database - PENDING
         });
